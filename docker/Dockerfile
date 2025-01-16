@@ -47,6 +47,9 @@ RUN ${MAGMA}/prebuild.sh
 ARG fuzzer_name
 ARG fuzzer_path=fuzzers/${fuzzer_name}
 ENV FUZZER 	${MAGMA_R}/${fuzzer_path}
+
+ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES 1
+
 USER root:root
 RUN mkdir -p ${FUZZER} && chown magma:magma ${FUZZER}
 COPY --chown=magma:magma ${magma_root}/${fuzzer_path} ${FUZZER}/
