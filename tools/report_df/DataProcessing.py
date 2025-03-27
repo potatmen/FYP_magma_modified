@@ -310,6 +310,10 @@ def bug_survival_data(bd):
                     'Metric': metric,
                     'BugID': bug
                 })
+                #new_row_df = new_row.to_frame().T  # Transpose to make it a single-row DataFrame
+        
+                 # Concatenate the new row DataFrame with the existing group DataFrame
+                #group = pd.concat([group, new_row_df], ignore_index=True)
                 group = group.append(new_row, ignore_index=True)
             return group
 

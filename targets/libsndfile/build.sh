@@ -8,6 +8,8 @@ set -e
 # - env CC, CXX, FLAGS, LIBS, etc...
 ##
 
+echo "Triggered"
+
 if [ ! -d "$TARGET/repo" ]; then
     echo "fetch.sh must be executed first."
     exit 1
@@ -19,4 +21,13 @@ cd "$TARGET/repo"
 make -j$(nproc) clean
 make -j$(nproc) ossfuzz/sndfile_fuzzer
 
-cp -v ossfuzz/sndfile_fuzzer $OUT/
+#cp -v ossfuzz/sndfile_fuzzer $OUT/
+if [ -z "$IS_AFLX" ]; then
+    cp -v ossfuzz/sndfile_fuzzer $OUT/
+else
+    NEW_DIR="$OUT/fuzzer_$FUZZER_ID"
+    mkdir $NEW_DIR
+    echo "Dir name is $NEW_DIR"
+    cp -v ossfuzz/sndfile_fuzzer $NEW_DIR/
+fi
+

@@ -25,8 +25,20 @@ make -j$(nproc) clean
 make -j$(nproc)
 make install
 
-cp "$WORK/bin/tiffcp" "$OUT/"
-$CXX $CXXFLAGS -std=c++11 -I$WORK/include \
-    contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $OUT/tiff_read_rgba_fuzzer \
-    $WORK/lib/libtiffxx.a $WORK/lib/libtiff.a -lz -ljpeg -Wl,-Bstatic -llzma -Wl,-Bdynamic \
-    $LDFLAGS $LIBS
+if [ -z "$IS_AFLX" ]; then
+    cp "$WORK/bin/tiffcp" "$OUT/"
+    $CXX $CXXFLAGS -std=c++11 -I$WORK/include \
+        contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $OUT/tiff_read_rgba_fuzzer \
+        $WORK/lib/libtiffxx.a $WORK/lib/libtiff.a -lz -ljpeg -Wl,-Bstatic -llzma -Wl,-Bdynamic \
+        $LDFLAGS $LIBS
+else
+    NEW_DIR="$OUT/fuzzer_$FUZZER_ID"
+    mkdir $NEW_DIR
+    echo "Dir name is $NEW_DIR"
+    cp "$WORK/bin/tiffcp" "$NEW_DIR/"
+    $CXX $CXXFLAGS -std=c++11 -I$WORK/include \
+        contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $NEW_DIR/tiff_read_rgba_fuzzer \
+        $WORK/lib/libtiffxx.a $WORK/lib/libtiff.a -lz -ljpeg -Wl,-Bstatic -llzma -Wl,-Bdynamic \
+        $LDFLAGS $LIBS
+    
+fi

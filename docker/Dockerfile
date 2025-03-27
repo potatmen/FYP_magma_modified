@@ -23,6 +23,10 @@ ENV AS /usr/bin/as
 ENV NM /usr/bin/nm
 ENV RANLIB /usr/bin/ranlib
 
+ENV FUZZER_ID=1
+
+ENV FUZZER_NUM=3
+
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 RUN mkdir -p /home && \

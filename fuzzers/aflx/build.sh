@@ -12,6 +12,10 @@ if [ ! -d "$FUZZER/repo" ]; then
 fi
 
 cd "$FUZZER/repo"
+
+export FUZZERS=1
+export FUZZERID=1
+
 CC=clang make -j $(nproc)
 CC=clang make -j $(nproc) -C llvm_mode
 

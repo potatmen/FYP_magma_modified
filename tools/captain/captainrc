@@ -10,7 +10,7 @@
 WORKDIR=./workdir
 
 # REPEAT: number of campaigns to run per program (per fuzzer)
-REPEAT=1
+REPEAT=5
 
 # [WORKER_MODE]: defines the type of CPU resources to allocate (default: 1)
 # - 1: logical cores (possibly SMT-enabled)
@@ -30,7 +30,7 @@ REPEAT=1
 # [TIMEOUT]: time to run each campaign. This variable supports one-letter
 # suffixes to indicate duration (s: seconds, m: minutes, h: hours, d: days)
 # (default: 1m)
-TIMEOUT=5m
+TIMEOUT=2h
 
 # [POLL]: time (in seconds) between polls (default: 5)
 POLL=5
@@ -40,7 +40,7 @@ POLL=5
 # CACHE_ON_DISK=1
 
 # [NO_ARCHIVE]: if set, campaign workdirs will not be tarballed (default: unset)
-# NO_ARCHIVE=1
+NO_ARCHIVE=1
 
 # [TMPFS_SIZE]: the size of the tmpfs mounted volume. This only applies when
 # CACHE_ON_DISK is not set (default: 50g)
@@ -71,13 +71,18 @@ POLL=5
 ###
 
 # FUZZERS: an array of fuzzer names (from magma/fuzzers/*) to evaluate
-FUZZERS=(afl aflx)
+FUZZERS=(aflx afl)
+# FUZZERS=(aflx afl)
 
 # [fuzzer_TARGETS]: an array of target names (from magma/targets/*) to fuzz with
 # `fuzzer`. The `fuzzer` prefix is a fuzzer listed in the FUZZERS array
 # (default: all targets)
-afl_TARGETS=(libpng)
-aflx_TARGETS=(libpng)
+# afl_TARGETS=(libsndfile libtiff libxml2)
+# aflx_TARGETS=(libsndfile libtiff libxml2)
+# aflx_TARGETS=(lua)
+ aflx_TARGETS=(libpng libsndfile libtiff)
+ afl_TARGETS=(libpng libsndfile libtiff)
+
 
 # [fuzzer_target_PROGRAMS]: an array of program names (from
 # magma/targets/target/configrc) to use as execution drivers when fuzzing the
@@ -89,5 +94,5 @@ aflx_TARGETS=(libpng)
 # afl_libpng_FUZZARGS="-x /magma_shared/png.dict"
 
 # [fuzzer_CAMPAIGN_WORKERS]: overrides the global CAMPAIGN_WORKERS setting
-aflx_CAMPAIGN_WORKERS=3
-afl_CAMPAIGN_WORKERS=3
+ aflx_CAMPAIGN_WORKERS=3
+ afl_CAMPAIGN_WORKERS=3
